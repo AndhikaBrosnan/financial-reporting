@@ -2,14 +2,19 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { isMobileHandler } from "../helpers/responsive";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const isMobile = isMobileHandler();
+  const router = useRouter();
+
   return (
     <Box
-      m={"0 35em"}
-      p={"2em 1em"}
+      m={isMobile ? "0" : "0 25em"}
+      p={!isMobile && "2em 1em"}
       h="100vh"
       border="1px solid #ffffff"
       borderRadius="4px"
@@ -56,7 +61,13 @@ export default function Home() {
         />
       </Flex>
 
-      <Box mt="3em" background="teal" borderRadius="28px">
+      <Box
+        mt="3em"
+        background="teal"
+        borderRadius="28px"
+        cursor="pointer"
+        onClick={() => router.push("/reports")}
+      >
         <Flex justifyContent="flex-start" alignItems="center" p="2em">
           <Text flex="1" color="black">
             Laporan Keuangan
