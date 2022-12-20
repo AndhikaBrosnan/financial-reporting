@@ -1,21 +1,15 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import { isMobileHandler } from "../../helpers/responsive";
-import DatePicker from "react-datepicker";
-
+import "react-datepicker/dist/react-datepicker.css";
 import styles from "./styles.module.css";
+
+import IncomeComponent from "./components/income";
+import { useState } from "react";
+import OutcomeComponent from "./components/outcome";
 
 const FinancialReport = () => {
   const isMobile = isMobileHandler();
+  const [isIncome, setIsIncome] = useState(true);
 
   return (
     <Box
@@ -32,43 +26,31 @@ const FinancialReport = () => {
         w="100%"
         mt={"1em"}
       >
-        <Box ml={"3em"} p="1em" background="teal" borderRadius="28px">
+        <Box
+          ml={"3em"}
+          p="1em"
+          background="teal"
+          borderRadius="28px"
+          cursor="pointer"
+          onClick={() => setIsIncome(true)}
+        >
           <Text color={"white"}>Uang Masuk</Text>
         </Box>
-        <Box mr={"3em"} p="1em" background="blue" borderRadius="28px">
+        <Box
+          mr={"3em"}
+          p="1em"
+          background="blue"
+          borderRadius="28px"
+          cursor="pointer"
+          onClick={() => setIsIncome(false)}
+        >
           <Text color={"white"}>Uang Keluar</Text>
         </Box>
       </Flex>
 
       <Divider border="2px solid #808080" mt={"2em"} />
 
-      <Box m={"0 1em"}>
-        <Heading as="h4" size="md">
-          Keterangan Barang
-        </Heading>
-        <FormControl m={"1em 0"}>
-          <FormLabel>Nama Barang</FormLabel>
-          <Input type="text" />
-          <FormHelperText>Nama Barang harus unique.</FormHelperText>
-        </FormControl>
-        <FormControl m={"1em 0"}>
-          <FormLabel>Jumlah Barang</FormLabel>
-          <Input type="number" />
-        </FormControl>
-        <FormControl m={"1em 0"}>
-          <FormLabel>Tanggal Transaksi</FormLabel>
-          <DatePicker placeholderText="Date Picker" selected={new Date()} />
-        </FormControl>
-
-        <Text></Text>
-      </Box>
-      <Divider border="1px solid #000000" mt={"2em"} />
-      <Box m={"0 1em"}>
-        <Heading as="h4" size="md">
-          Total Pemasukan
-        </Heading>
-        <Text>Harga Modal</Text>
-      </Box>
+      {isIncome ? <IncomeComponent /> : <OutcomeComponent />}
     </Box>
   );
 };
