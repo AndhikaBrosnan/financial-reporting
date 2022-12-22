@@ -14,8 +14,8 @@ const FinancialReport = () => {
   return (
     <Box
       m={isMobile ? "0" : "0 25em"}
-      p={!isMobile && "2em 1em"}
-      h="100vh"
+      p={isMobile ? "0" : "2em 1em"}
+      h={isMobile ? "100%" : "100vh"}
       border="1px solid #ffffff"
       borderRadius="4px"
       background="white"

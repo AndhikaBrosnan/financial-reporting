@@ -1,6 +1,5 @@
-import Head from "next/head";
 import { Inter } from "@next/font/google";
-import { Box, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { isMobileHandler } from "../helpers/responsive";
 import { useRouter } from "next/router";
@@ -13,12 +12,11 @@ export default function Home() {
 
   return (
     <Box
-      m={isMobile ? "0" : "0 25em"}
-      p={!isMobile && "2em 1em"}
-      h="100vh"
       border="1px solid #ffffff"
       borderRadius="4px"
       background="white"
+      p={isMobile ? "1" : "2em 35em"}
+      h={isMobile ? "100%" : "100vh"}
     >
       <Flex justifyContent="space-around" alignItems="center">
         <Image
