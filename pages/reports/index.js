@@ -39,22 +39,22 @@ const FinancialReport = () => {
             <Box
               ml={"3em"}
               p="1em"
-              background="teal"
-              borderRadius="28px"
+              background={isIncome ? "#22543D" : "#9AE6B4"}
+              borderRadius="18px"
               cursor="pointer"
               onClick={() => setIsIncome(true)}
             >
-              <Text color={"white"}>Uang Masuk</Text>
+              <Text color={isIncome ? "white" : "#4a4a4a"}>Uang Masuk</Text>
             </Box>
             <Box
               mr={"3em"}
               p="1em"
-              background="blue"
-              borderRadius="28px"
+              background={isIncome ? "#FBD38D" : "#DD6B20"}
+              borderRadius="18px"
               cursor="pointer"
               onClick={() => setIsIncome(false)}
             >
-              <Text color={"white"}>Uang Keluar</Text>
+              <Text color={isIncome ? "#4a4a4a" : "white"}>Uang Keluar</Text>
             </Box>
           </Flex>
 

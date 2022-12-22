@@ -46,8 +46,13 @@ const IncomeComponent = () => {
         <Heading as="h4" size="md">
           Total Pemasukan
         </Heading>
-        <Text>Harga Modal</Text>
-        <Heading as="h4" size="md">
+        <Flex justifyContent="flex-start" alignItems="center">
+          <Text>Harga Modal</Text>{" "}
+          <Text ml="7em" fontWeight="500">
+            Rp. 0
+          </Text>
+        </Flex>
+        <Heading as="h4" size="md" mt={"2em"}>
           Keutungan
         </Heading>
       </Box>
