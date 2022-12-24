@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,700,900");
+
+.laporan-keuangan {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+
+  /* or 59px */
+  text-align: center;
+  letter-spacing: 0.035em;
+
+  color: #ffffff;
+}

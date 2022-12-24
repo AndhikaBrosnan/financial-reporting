@@ -1,48 +1,129 @@
 import {
   Box,
   Divider,
+  Flex,
   FormControl,
-  FormHelperText,
   FormLabel,
   Heading,
   Input,
-  Text,
+  Button,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
+import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
 import styles from "./styles.module.css";
 
 const OutcomeComponent = () => {
-  const [outcomeDate, setOutcomeDate] = useState(new Date());
+  const formatter = new Intl.NumberFormat("id-ID");
+  const toast = useToast();
+  const isMobile = isMiniMobileHandler();
+
+  const [namaTransaksi, setNamaTransaksi] = useState("");
+  const [nominalTransaksi, setNominalTransaksi] = useState(null);
+  const [tanggalTransaksi, setTanggalTransaksi] = useState(
+    new Date().getTime()
+  );
+
+  const [transactions, setTransactions] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
+
+  useEffect(() => {
+    const savedTransactions = localStorage.getItem("transactions");
+    if (savedTransactions) {
+      setTransactions(JSON.parse(savedTransactions));
+    }
+  }, []);
+
+  useEffect(() => {
+    const calculateIncome = transactions.reduce((accumulator, currentValue) => {
+      if (currentValue.type === "outcome")
+        return accumulator + parseInt(currentValue.nominal);
+      return accumulator;
+    }, 0);
+
+    setTotalIncome(calculateIncome);
+  }, [transactions]);
+
+  const onSubmitIncome = () => {
+    const transactionTemp = {
+      type: "outcome",
+      name: namaTransaksi,
+      nominal: nominalTransaksi,
+      transactionDate: tanggalTransaksi,
+    };
+
+    const tempTransactions = [...transactions, transactionTemp];
+    setTransactions(tempTransactions);
+    localStorage.setItem("transactions", JSON.stringify(tempTransactions));
+
+    toast({
+      title: "Transaksi berhasil ditambahkan.",
+      description: "Pengeluaran telah dicatat.",
+      status: "success",
+      duration: 3000,
+      position: isMobile ? "bottom" : "top",
+      isClosable: true,
+    });
+
+    setNamaTransaksi("");
+    setNominalTransaksi(0);
+    setTanggalTransaksi(new Date().getTime());
+  };
 
   return (
     <>
       <Box m={"0 1em"}>
         <Heading as="h4" size="md">
-          Keterangan Barang
+          Input Pengeluaran
         </Heading>
-        <FormControl m={"1em 0"}>
+        <FormControl m={"1em 0"} isRequired>
           <FormLabel>Nama Transaksi</FormLabel>
-          <Input type="text" />
+          <Input
+            type="text"
+            placeholder="Masukan nama Transaksi"
+            value={namaTransaksi}
+            onChange={(e) => setNamaTransaksi(e.target.value)}
+          />
         </FormControl>
-        <FormControl m={"1em 0"}>
+        <FormControl m={"1em 0"} isRequired>
           <FormLabel>Jumlah Transaksi</FormLabel>
-          <Input type="number" />
+          <Input
+            type="number"
+            placeholder="Masukan Nominal Transaksi"
+            value={nominalTransaksi}
+            onChange={(e) => setNominalTransaksi(e.target.value)}
+          />
         </FormControl>
         <FormControl m={"1em 0"}>
           <FormLabel>Tanggal Transaksi</FormLabel>
         </FormControl>
         <DatePicker
+          className={styles["datepicker-input"]}
           placeholderText="Date Picker"
-          selected={outcomeDate}
-          onChange={(date) => setOutcomeDate(date)}
+          selected={tanggalTransaksi}
+          onChange={(date) => setTanggalTransaksi(date)}
         />
       </Box>
       <Divider border="1px solid #000000" mt={"2em"} />
       <Box m={"0 1em"}>
         <Heading as="h4" size="md">
-          Total Pengeluaran
+          Total Pengeluaran saat ini:{" "}
         </Heading>
+        <Heading as="h4" size="md" fontWeight="bolder">
+          Rp{formatter.format(totalIncome)}
+        </Heading>
+      </Box>
+      <Box mt={"2em"}>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          onClick={onSubmitIncome}
+        >
+          <Button colorScheme="teal" size="lg" borderRadius="28px">
+            Submit Pengeluaran
+          </Button>
+        </Flex>
       </Box>
     </>
   );
