@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
 import styles from "./styles.module.css";
+import { isEmpty } from "lodash";
 
 const OutcomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
@@ -46,6 +47,10 @@ const OutcomeComponent = () => {
   }, [transactions]);
 
   const onSubmitIncome = () => {
+    const validate = validateForms();
+    console.log("validate: ", validate);
+    if (!validate) return;
+
     const transactionTemp = {
       type: "outcome",
       name: namaTransaksi,
@@ -69,6 +74,33 @@ const OutcomeComponent = () => {
     setNamaTransaksi("");
     setNominalTransaksi(0);
     setTanggalTransaksi(new Date().getTime());
+  };
+
+  const validateForms = () => {
+    if (isEmpty(namaTransaksi)) {
+      toast({
+        title: "Gagal.",
+        description: "Mohon mengisi nama transaksi.",
+        status: "error",
+        duration: 1500,
+        position: isMobile ? "bottom" : "top",
+        isClosable: true,
+      });
+      return false;
+    }
+    if (isEmpty(nominalTransaksi)) {
+      toast({
+        title: "Gagal.",
+        description: "Mohon mengisi jumlah transaksi.",
+        status: "error",
+        duration: 1500,
+        position: isMobile ? "bottom" : "top",
+        isClosable: true,
+      });
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -102,7 +134,7 @@ const OutcomeComponent = () => {
           className={styles["datepicker-input"]}
           placeholderText="Date Picker"
           selected={tanggalTransaksi}
-          onChange={(date) => setTanggalTransaksi(date)}
+          onChange={(date) => setTanggalTransaksi(date.getTime())}
         />
       </Box>
       <Divider border="1px solid #000000" mt={"2em"} />

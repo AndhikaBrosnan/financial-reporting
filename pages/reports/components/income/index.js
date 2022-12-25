@@ -16,6 +16,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
+import { isEmpty } from "lodash";
 
 const IncomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
@@ -49,6 +50,10 @@ const IncomeComponent = () => {
   }, [transactions]);
 
   const onSubmitIncome = () => {
+    const validate = validateForms();
+    console.log("validate: ", validate);
+    if (!validate) return;
+
     const transactionTemp = {
       type: "income",
       name: namaTransaksi,
@@ -72,6 +77,33 @@ const IncomeComponent = () => {
     setNamaTransaksi("");
     setNominalTransaksi(0);
     setTanggalTransaksi(new Date().getTime());
+  };
+
+  const validateForms = () => {
+    if (isEmpty(namaTransaksi)) {
+      toast({
+        title: "Gagal.",
+        description: "Mohon mengisi nama transaksi.",
+        status: "error",
+        duration: 1500,
+        position: isMobile ? "bottom" : "top",
+        isClosable: true,
+      });
+      return false;
+    }
+    if (isEmpty(nominalTransaksi)) {
+      toast({
+        title: "Gagal.",
+        description: "Mohon mengisi jumlah transaksi.",
+        status: "error",
+        duration: 1500,
+        position: isMobile ? "bottom" : "top",
+        isClosable: true,
+      });
+      return false;
+    }
+
+    return true;
   };
 
   return (
