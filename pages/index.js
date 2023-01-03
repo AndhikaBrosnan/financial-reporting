@@ -53,14 +53,13 @@ export default function Home() {
               >
                 <IconPemasukan />
               </Flex>
-              <Text>Pemasukan</Text>
+              <Text>Transaksi</Text>
             </Flex>
             <Flex
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
               cursor="pointer"
-              onClick={() => router.push("/reports?section=outcome")}
             >
               <Flex
                 justifyContent="center"
@@ -71,7 +70,7 @@ export default function Home() {
               >
                 <IconPengeluaran />
               </Flex>
-              <Text>Pengeluaran</Text>
+              <Text>-</Text>
             </Flex>
             <Flex
               justifyContent="center"
@@ -117,6 +116,26 @@ export default function Home() {
             borderRadius="28px"
             cursor="pointer"
             onClick={() => router.push("/financial-records")}
+          >
+            <Flex justifyContent="flex-start" alignItems="center" p="2em">
+              <Text flex="1" className={styles["laporan-keuangan"]}>
+                Jurnal Umum
+              </Text>
+              <ChevronRightIcon
+                color="white"
+                size="28px"
+                w={"28px"}
+                h={"28px"}
+              />
+            </Flex>
+          </Box>
+
+          <Box
+            mt="1em"
+            background="orange.700"
+            borderRadius="28px"
+            cursor="pointer"
+            onClick={() => router.push("/profit-loss")}
           >
             <Flex justifyContent="flex-start" alignItems="center" p="2em">
               <Text flex="1" className={styles["laporan-keuangan"]}>

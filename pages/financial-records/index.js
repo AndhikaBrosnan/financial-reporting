@@ -1,10 +1,7 @@
 import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import HeaderLayout from "../../common/components/headers";
 import moment from "moment";
-import {
-  isMiniMobileHandler,
-  isMobileHandler,
-} from "../../common/helpers/responsive";
+import { isMiniMobileHandler } from "../../common/helpers/responsive";
 import { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
@@ -27,29 +24,6 @@ const EmptyState = () => {
     </Box>
   );
 };
-
-// const dummyTransaction = [
-//   {
-//     type: "income",
-//     nominal: "3500000",
-//     name: "Komisi Penjualan PT. ABC",
-//     transactionDate: "1670832732000",
-//   },
-//   {
-//     type: "outcome",
-//     nominal: "1000000",
-//     name: "Belanja Bahan Baku",
-//     transactionDate: "1671764752000",
-//   },
-//   {
-//     type: "outcome",
-//     nominal: "1500000",
-//     name: "Perbaikan Alat",
-//     transactionDate: "1671884475046",
-//   },
-// ];
-
-// localStorage.setItem("transactions", JSON.stringify(dummyTransaction));
 
 const FinancialRecords = () => {
   moment.locale("id");
