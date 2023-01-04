@@ -9,13 +9,43 @@ const ProfitLoss = () => {
   const isMobile = isMiniMobileHandler();
 
   const [transaksi, setTransaksi] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalOutcome, setTotalOutcome] = useState(0);
+
+  const [totalProfit, setTotalProfit] = useState(0);
+
+  const formatter = new Intl.NumberFormat("id-ID");
+
+  console.log("totalProfit: ", totalProfit);
 
   useEffect(() => {
     const transactions = JSON.parse(localStorage.getItem("transactions"));
     if (!isEmpty(transactions)) setTransaksi(transactions);
   }, []);
 
-  console.log("transaksi ProfitLoss: ", transaksi);
+  useEffect(() => {
+    if (!isEmpty(transaksi)) {
+      const sumIncome = transaksi.reduce(function (sum, value) {
+        if (value.type === "income") {
+          return sum + parseInt(value.nominal);
+        }
+        return sum;
+      }, 0);
+      setTotalIncome(sumIncome);
+
+      const sumOutcome = transaksi.reduce(function (sum, value) {
+        if (value.type === "outcome") {
+          return sum + parseInt(value.nominal);
+        }
+        return sum;
+      }, 0);
+      setTotalOutcome(sumOutcome);
+    }
+  }, [transaksi]);
+
+  useEffect(() => {
+    setTotalProfit(totalIncome - totalOutcome);
+  }, [totalIncome, totalOutcome]);
 
   return (
     <Box p={!isMobile && "0 30em"}>
@@ -62,8 +92,8 @@ const ProfitLoss = () => {
           <Box>
             <Text color="green">Pemasukan</Text>
           </Box>
-          <Box>
-            <Text color="green">Rp. 0</Text>
+          <Box ml={3}>
+            <Text color="green">Rp. {formatter.format(totalIncome)}</Text>
           </Box>
         </Flex>
 
@@ -71,18 +101,21 @@ const ProfitLoss = () => {
           <Box>
             <Text color="red">Pengeluaran</Text>
           </Box>
-          <Box>
-            <Text color="red">Rp. 0</Text>
+          <Box ml={3}>
+            <Text color="red">Rp. {formatter.format(totalOutcome)}</Text>
           </Box>
         </Flex>
 
         <Divider borderWidth="2px" />
         <Flex m="1em 2em" justifyContent="center" alignItems="center">
           <Box>
-            <Text color="green">Keuntungan</Text>
+            <Text color={totalProfit > 0 ? "green" : "red"}>Keuntungan</Text>
           </Box>
-          <Box>
-            <Text color="green">Rp. 0</Text>
+          <Box ml={3}>
+            <Text color={totalProfit > 0 ? "green" : "red"}>
+              {totalProfit < 0 && "-"} Rp.{" "}
+              {formatter.format(Math.abs(totalProfit))}
+            </Text>
           </Box>
         </Flex>
         <Divider borderWidth="2px" />
