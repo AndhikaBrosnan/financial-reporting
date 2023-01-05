@@ -8,6 +8,8 @@ import {
   Input,
   Button,
   useToast,
+  InputGroup,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
@@ -15,6 +17,7 @@ import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
 import styles from "./styles.module.css";
 import { isEmpty } from "lodash";
 import CreatableSelect from "react-select/creatable";
+import CurrencyInput from "react-currency-input-field";
 
 const OutcomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
@@ -121,6 +124,14 @@ const OutcomeComponent = () => {
     return true;
   };
 
+  const handleChangeNominal = (newValue) => {
+    if (newValue === undefined) {
+      setNominalTransaksi(0);
+    } else {
+      setNominalTransaksi(newValue);
+    }
+  };
+
   return (
     <>
       <Box m={"0 1em"}>
@@ -147,12 +158,14 @@ const OutcomeComponent = () => {
         </FormControl>
         <FormControl m={"1em 0"} isRequired>
           <FormLabel>Jumlah Transaksi</FormLabel>
-          <Input
-            type="number"
-            placeholder="Masukan Nominal Transaksi"
-            value={nominalTransaksi}
-            onChange={(e) => setNominalTransaksi(e.target.value)}
-          />
+          <InputGroup>
+            <CurrencyInput
+              className="w3-input w3-border w3-round-large"
+              value={nominalTransaksi}
+              onValueChange={handleChangeNominal}
+              intlConfig={{ locale: "id-ID", currency: "IDR" }}
+            />
+          </InputGroup>
         </FormControl>
         <FormControl m={"1em 0"}>
           <FormLabel>Tanggal Transaksi</FormLabel>
