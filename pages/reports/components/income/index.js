@@ -10,25 +10,26 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import CreatableSelect from "react-select/creatable";
 import styles from "./styles.module.css";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
-import { isEmpty } from "lodash";
+import { isEmpty, set } from "lodash";
 
 const IncomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
   const isMobile = isMiniMobileHandler();
   const toast = useToast();
 
+  const [jenisTransaksi, setJenisTransaksi] = useState("");
   const [namaTransaksi, setNamaTransaksi] = useState("");
   const [nominalTransaksi, setNominalTransaksi] = useState(null);
   const [tanggalTransaksi, setTanggalTransaksi] = useState(
     new Date().getTime()
   );
-
   const [transactions, setTransactions] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
 
@@ -38,6 +39,15 @@ const IncomeComponent = () => {
       setTransactions(JSON.parse(savedTransactions));
     }
   }, []);
+
+  const options = [
+    { value: "penjualan", label: "Penjualan" },
+    { value: "penambahan modal", label: "Penambahan modal" },
+    { value: "pendapatan di luar usaha", label: "Pendapatan di luar usaha" },
+    { value: "pendapatan jasa", label: "Pendapatan jasa" },
+    { value: "terima pinjaman", label: "Terima pinjaman" },
+    { value: "penagihan utang/cicilan", label: "Penagihan utang/ cicilan" },
+  ];
 
   useEffect(() => {
     const calculateIncome = transactions.reduce((accumulator, currentValue) => {
@@ -51,11 +61,11 @@ const IncomeComponent = () => {
 
   const onSubmitIncome = () => {
     const validate = validateForms();
-    console.log("validate: ", validate);
     if (!validate) return;
 
     const transactionTemp = {
       type: "income",
+      jenisTransaksi: jenisTransaksi.value,
       name: namaTransaksi,
       nominal: nominalTransaksi,
       transactionDate: tanggalTransaksi,
@@ -75,6 +85,7 @@ const IncomeComponent = () => {
     });
 
     setNamaTransaksi("");
+    setJenisTransaksi(null);
     setNominalTransaksi(0);
     setTanggalTransaksi(new Date().getTime());
   };
@@ -112,6 +123,15 @@ const IncomeComponent = () => {
         <Heading as="h4" size="md">
           Input Pemasukan
         </Heading>
+        <FormControl m={"1em 0"} isRequired>
+          <FormLabel>Jenis Transaksi</FormLabel>
+          <CreatableSelect
+            isClearable
+            options={options}
+            value={jenisTransaksi}
+            onChange={(item) => setJenisTransaksi(item)}
+          />
+        </FormControl>
         <FormControl m={"1em 0"} isRequired>
           <FormLabel>Nama Transaksi</FormLabel>
           <Input

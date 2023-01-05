@@ -5,4 +5,5 @@
 .transaction-title {
   font-size: larger;
   font-weight: 500;
+  text-transform: capitalize;
 }

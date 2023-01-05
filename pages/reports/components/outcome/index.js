@@ -14,12 +14,14 @@ import DatePicker from "react-datepicker";
 import { isMiniMobileHandler } from "../../../../common/helpers/responsive";
 import styles from "./styles.module.css";
 import { isEmpty } from "lodash";
+import CreatableSelect from "react-select/creatable";
 
 const OutcomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
   const toast = useToast();
   const isMobile = isMiniMobileHandler();
 
+  const [jenisTransaksi, setJenisTransaksi] = useState("");
   const [namaTransaksi, setNamaTransaksi] = useState("");
   const [nominalTransaksi, setNominalTransaksi] = useState(null);
   const [tanggalTransaksi, setTanggalTransaksi] = useState(
@@ -28,6 +30,21 @@ const OutcomeComponent = () => {
 
   const [transactions, setTransactions] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
+
+  const options = [
+    { value: "pembelian bahan baku", label: "Pembelian bahan baku" },
+    { value: "pengeluaran di luar usaha", label: "Pengeluaran di luar usaha" },
+    { value: "biaya operasional", label: "Biaya operasional" },
+    { value: "gaji/bonus karyawan", label: "Gaji/ bonus karyawan" },
+    { value: "sewa Bangunan", label: "Sewa Bangunan" },
+    {
+      value: "beban listrik/air/telepon",
+      label: "Beban listrik/ air/ telepon",
+    },
+    { value: "pemberian utang", label: "Pemberian Utang" },
+    { value: "pembayaran utang/cicilan", label: "pembayaran utang/ cicilan" },
+    { value: "pengeluaran lain lain", label: "Pengeluaran lain lain" },
+  ];
 
   useEffect(() => {
     const savedTransactions = localStorage.getItem("transactions");
@@ -48,11 +65,11 @@ const OutcomeComponent = () => {
 
   const onSubmitIncome = () => {
     const validate = validateForms();
-    console.log("validate: ", validate);
     if (!validate) return;
 
     const transactionTemp = {
       type: "outcome",
+      jenisTransaksi: jenisTransaksi.value,
       name: namaTransaksi,
       nominal: nominalTransaksi,
       transactionDate: tanggalTransaksi,
@@ -72,6 +89,7 @@ const OutcomeComponent = () => {
     });
 
     setNamaTransaksi("");
+    setJenisTransaksi(null);
     setNominalTransaksi(0);
     setTanggalTransaksi(new Date().getTime());
   };
@@ -109,6 +127,15 @@ const OutcomeComponent = () => {
         <Heading as="h4" size="md">
           Input Pengeluaran
         </Heading>
+        <FormControl m={"1em 0"} isRequired>
+          <FormLabel>Jenis Transaksi</FormLabel>
+          <CreatableSelect
+            isClearable
+            options={options}
+            value={jenisTransaksi}
+            onChange={(item) => setJenisTransaksi(item)}
+          />
+        </FormControl>
         <FormControl m={"1em 0"} isRequired>
           <FormLabel>Nama Transaksi</FormLabel>
           <Input

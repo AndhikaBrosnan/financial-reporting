@@ -41,7 +41,7 @@ const FinancialRecords = () => {
     <Box p={!isMobile && "0 30em"}>
       <HeaderLayout />
       <Flex justifyContent="center" alignItems="center" pt="1em">
-        <Heading as="h3">Mutasi</Heading>
+        <Heading as="h3">Jurnal Umum</Heading>
       </Flex>
 
       <Box mt={"1em"}>
@@ -59,7 +59,7 @@ const FinancialRecords = () => {
                   >
                     <Box>
                       <Text className={styles["transaction-title"]}>
-                        {item.name}
+                        {item.jenisTransaksi}
                       </Text>
                       <Text>
                         {moment

@@ -16,8 +16,6 @@ const ProfitLoss = () => {
 
   const formatter = new Intl.NumberFormat("id-ID");
 
-  console.log("totalProfit: ", totalProfit);
-
   useEffect(() => {
     const transactions = JSON.parse(localStorage.getItem("transactions"));
     if (!isEmpty(transactions)) setTransaksi(transactions);
