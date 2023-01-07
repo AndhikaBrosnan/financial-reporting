@@ -37,6 +37,8 @@ const FinancialRecords = () => {
     if (!isEmpty(transactions)) setTransaksi(transactions);
   }, []);
 
+  console.log("transaksi: ", transaksi);
+
   return (
     <Box p={!isMobile && "0 30em"}>
       <HeaderLayout />
@@ -60,6 +62,9 @@ const FinancialRecords = () => {
                     <Box>
                       <Text className={styles["transaction-title"]}>
                         {item.jenisTransaksi}
+                      </Text>
+                      <Text className={styles["transaction-subtitle"]}>
+                        {item.name}
                       </Text>
                       <Text>
                         {moment

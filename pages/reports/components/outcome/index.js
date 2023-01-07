@@ -148,7 +148,7 @@ const OutcomeComponent = () => {
           />
         </FormControl>
         <FormControl m={"1em 0"} isRequired>
-          <FormLabel>Nama Transaksi</FormLabel>
+          <FormLabel>Keterangan</FormLabel>
           <Input
             type="text"
             placeholder="Masukan nama Transaksi"
