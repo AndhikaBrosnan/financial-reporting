@@ -182,13 +182,6 @@ const IncomeComponent = () => {
           Rp{formatter.format(totalIncome)}
         </Heading>
 
-        <Flex mt={1} justifyContent="flex-start" alignItems="center">
-          <Text>Harga Modal</Text>{" "}
-          <Text ml="7em" fontWeight="500">
-            Rp. 7.000.000
-          </Text>
-        </Flex>
-
         <Box mt={"2em"}>
           <Flex justifyContent="center" alignItems="center">
             <Button

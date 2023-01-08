@@ -55,64 +55,11 @@ export default function Home() {
               </Flex>
               <Text>Transaksi</Text>
             </Flex>
-            <Flex
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              cursor="pointer"
-            >
-              <Flex
-                justifyContent="center"
-                alignItems="center"
-                boxSize="120px"
-                borderRadius="full"
-                background="#14A281"
-              >
-                <IconPengeluaran />
-              </Flex>
-              <Text>-</Text>
-            </Flex>
-            <Flex
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-            >
-              <Flex
-                justifyContent="center"
-                alignItems="center"
-                boxSize="120px"
-                borderRadius="full"
-                background="#14A281"
-              >
-                <IconFinancial />
-              </Flex>
-              <Text>Pemodalan</Text>
-            </Flex>
-          </Flex>
-          <Flex justifyContent="space-around" alignItems="center" mt="2em">
-            <Image
-              borderRadius="100%"
-              boxSize="120px"
-              src="https://via.placeholder.com/150"
-              alt="Dan Abramov"
-            />
-            <Image
-              borderRadius="100%"
-              boxSize="120px"
-              src="https://via.placeholder.com/150"
-              alt="Dan Abramov"
-            />
-            <Image
-              borderRadius="100%"
-              boxSize="120px"
-              src="https://via.placeholder.com/150"
-              alt="Dan Abramov"
-            />
           </Flex>
 
           <Box
             mt="3em"
-            background="#324C8D"
+            background="teal"
             borderRadius="28px"
             cursor="pointer"
             onClick={() => router.push("/financial-records")}
@@ -132,7 +79,7 @@ export default function Home() {
 
           <Box
             mt="1em"
-            background="orange.700"
+            background="#324C8D"
             borderRadius="28px"
             cursor="pointer"
             onClick={() => router.push("/profit-loss")}

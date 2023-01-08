@@ -23,6 +23,7 @@ const ProfitLoss = () => {
 
   useEffect(() => {
     if (!isEmpty(transaksi)) {
+      // sum income
       const sumIncome = transaksi.reduce(function (sum, value) {
         if (value.type === "income") {
           return sum + parseInt(value.nominal);
@@ -31,6 +32,7 @@ const ProfitLoss = () => {
       }, 0);
       setTotalIncome(sumIncome);
 
+      // sum outcome
       const sumOutcome = transaksi.reduce(function (sum, value) {
         if (value.type === "outcome") {
           return sum + parseInt(value.nominal);
@@ -38,6 +40,8 @@ const ProfitLoss = () => {
         return sum;
       }, 0);
       setTotalOutcome(sumOutcome);
+
+      // search biggest sum
     }
   }, [transaksi]);
 
@@ -76,13 +80,6 @@ const ProfitLoss = () => {
           >
             Bulan lalu
           </Button>
-          <Button
-            className={styles["button-filter"]}
-            colorScheme="teal"
-            variant="outline"
-          >
-            Pilih Tanggal
-          </Button>
         </Flex>
       </Box>
       <Box mt="1em" m="2em">
@@ -117,6 +114,23 @@ const ProfitLoss = () => {
           </Box>
         </Flex>
         <Divider borderWidth="2px" />
+
+        <Flex
+          m="2em 0"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+        >
+          <Box>
+            <Text fontWeight="bold">Persentase Pengeluaran</Text>
+          </Box>
+          <Box ml={3} mt={2}>
+            <Text>
+              {"Beban Gaji"} merupakan beban pengeluaran terbesar dengan
+              persentase {"5%"}
+            </Text>
+          </Box>
+        </Flex>
       </Box>
     </Box>
   );
