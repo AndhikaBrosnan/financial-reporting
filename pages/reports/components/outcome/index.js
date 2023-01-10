@@ -18,6 +18,7 @@ import styles from "./styles.module.css";
 import { isEmpty } from "lodash";
 import CreatableSelect from "react-select/creatable";
 import CurrencyInput from "react-currency-input-field";
+import { supabase } from "../../../../common/helpers/supabaseClient";
 
 const OutcomeComponent = () => {
   const formatter = new Intl.NumberFormat("id-ID");
@@ -66,7 +67,7 @@ const OutcomeComponent = () => {
     setTotalIncome(calculateIncome);
   }, [transactions]);
 
-  const onSubmitIncome = () => {
+  const onSubmitIncome = async () => {
     const validate = validateForms();
     if (!validate) return;
 
@@ -81,6 +82,20 @@ const OutcomeComponent = () => {
     const tempTransactions = [...transactions, transactionTemp];
     setTransactions(tempTransactions);
     localStorage.setItem("transactions", JSON.stringify(tempTransactions));
+
+    let { error } = await supabase.from("records").upsert(transactionTemp);
+    if (error) {
+      console.error("error outcome upsert: ", error);
+      toast({
+        title: "Gagal.",
+        description: "gagal menyimpan ke database.",
+        status: "error",
+        duration: 3000,
+        position: isMobile ? "bottom" : "top",
+        isClosable: true,
+      });
+      throw error;
+    }
 
     toast({
       title: "Transaksi berhasil ditambahkan.",

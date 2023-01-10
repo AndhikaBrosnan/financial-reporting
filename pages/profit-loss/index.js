@@ -3,6 +3,7 @@ import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import HeaderLayout from "../../common/components/headers";
 import { isMiniMobileHandler } from "../../common/helpers/responsive";
+import { supabase } from "../../common/helpers/supabaseClient";
 import styles from "./styles.module.css";
 
 const ProfitLoss = () => {
@@ -16,9 +17,22 @@ const ProfitLoss = () => {
 
   const formatter = new Intl.NumberFormat("id-ID");
 
+  // useEffect(() => {
+  //   const transactions = JSON.parse(localStorage.getItem("transactions"));
+  //   if (!isEmpty(transactions)) setTransaksi(transactions);
+  // }, []);
+
+  const fetchDatabase = async () => {
+    let { data } = await supabase
+      .from("records")
+      .select(`type, name, jenisTransaksi, transactionDate, nominal`);
+
+    localStorage.setItem("transactions", JSON.stringify(data));
+    if (!isEmpty(data)) setTransaksi(data);
+  };
+
   useEffect(() => {
-    const transactions = JSON.parse(localStorage.getItem("transactions"));
-    if (!isEmpty(transactions)) setTransaksi(transactions);
+    fetchDatabase();
   }, []);
 
   useEffect(() => {

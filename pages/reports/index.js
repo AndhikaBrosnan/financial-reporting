@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import OutcomeComponent from "./components/outcome";
 import HeaderLayout from "../../common/components/headers";
 import { useRouter } from "next/router";
+import { supabase } from "../../common/helpers/supabaseClient";
 
 const FinancialReport = () => {
   const isMobile = isMiniMobileHandler();
@@ -24,6 +25,18 @@ const FinancialReport = () => {
       setIsIncome(false);
     }
   }, [section]);
+
+  const fetchDatabase = async () => {
+    let { data } = await supabase
+      .from("records")
+      .select(`type, name, jenisTransaksi, transactionDate, nominal`);
+
+    localStorage.setItem("transactions", JSON.stringify(data));
+  };
+
+  useEffect(() => {
+    fetchDatabase();
+  }, []);
 
   return (
     <>

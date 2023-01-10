@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import styles from "./styles.module.css";
+import { supabase } from "../../common/helpers/supabaseClient";
 
 const EmptyState = () => {
   return (
@@ -32,12 +33,23 @@ const FinancialRecords = () => {
 
   const [transaksi, setTransaksi] = useState([]);
 
+  const fetchDatabase = async () => {
+    let { data } = await supabase
+      .from("records")
+      .select(`type, name, jenisTransaksi, transactionDate, nominal`);
+
+    localStorage.setItem("transactions", JSON.stringify(data));
+    if (!isEmpty(data)) setTransaksi(data);
+  };
+
   useEffect(() => {
-    const transactions = JSON.parse(localStorage.getItem("transactions"));
-    if (!isEmpty(transactions)) setTransaksi(transactions);
+    fetchDatabase();
   }, []);
 
-  console.log("transaksi: ", transaksi);
+  // useEffect(() => {
+  // const transactions = JSON.parse(localStorage.getItem("transactions"));
+  // if (!isEmpty(transactions)) setTransaksi(transactions);
+  // }, []);
 
   return (
     <Box p={!isMobile && "0 30em"}>
