@@ -1,7 +1,7 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { isMiniMobileHandler, isMobileHandler } from "../helpers/responsive";
+import { isMiniMobileHandler } from "../helpers/responsive";
 
 const HeaderLayout = (props) => {
   const { title } = props;

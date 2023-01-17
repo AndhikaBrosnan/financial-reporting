@@ -6,11 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import HeaderLayout from "../common/components/headers";
 import styles from "./styles.module.css";
-import {
-  IconFinancial,
-  IconPemasukan,
-  IconPengeluaran,
-} from "../common/components/icons";
+import { IconPemasukan, IconPengeluaran } from "../common/components/icons";
 
 export default function Home() {
   const isMobile = isMiniMobileHandler();
@@ -36,6 +32,7 @@ export default function Home() {
           p={isMobile ? "1" : "2em 35em"}
           h="100vh"
         >
+          <Box background="#018062"></Box>
           <Flex justifyContent="space-around" alignItems="center">
             <Flex
               justifyContent="center"
@@ -53,7 +50,25 @@ export default function Home() {
               >
                 <IconPemasukan />
               </Flex>
-              <Text>Transaksi</Text>
+              <Text>Uang Masuk</Text>
+            </Flex>
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              cursor="pointer"
+              onClick={() => router.push("/reports?section=outcome")}
+            >
+              <Flex
+                justifyContent="center"
+                alignItems="center"
+                boxSize="120px"
+                borderRadius="full"
+                background="#14A281"
+              >
+                <IconPengeluaran />
+              </Flex>
+              <Text>Uang Keluar</Text>
             </Flex>
           </Flex>
 
