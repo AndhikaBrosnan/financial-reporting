@@ -1,5 +1,5 @@
 import { Inter } from "@next/font/google";
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { isMiniMobileHandler } from "../common/helpers/responsive";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import HeaderLayout from "../common/components/headers";
 import styles from "./styles.module.css";
 import { IconPemasukan, IconPengeluaran } from "../common/components/icons";
+import ProfitLoss from "./profit-loss";
 
 export default function Home() {
   const isMobile = isMiniMobileHandler();
@@ -22,7 +23,7 @@ export default function Home() {
 
   if (isRendered) {
     return (
-      <>
+      <Box>
         <HeaderLayout />
         <Box
           mt="2em"
@@ -32,45 +33,46 @@ export default function Home() {
           p={isMobile ? "1" : "2em 35em"}
           h="100vh"
         >
-          <Box background="#018062"></Box>
-          <Flex justifyContent="space-around" alignItems="center">
-            <Flex
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              cursor="pointer"
-              onClick={() => router.push("/reports?section=income")}
-            >
+          <Box className={styles["container-box-buttons"]}>
+            <Flex justifyContent="space-around" alignItems="center">
               <Flex
                 justifyContent="center"
                 alignItems="center"
-                boxSize="120px"
-                borderRadius="full"
-                background="#14A281"
+                flexDirection="column"
+                cursor="pointer"
+                onClick={() => router.push("/reports?section=income")}
               >
-                <IconPemasukan />
+                <Flex
+                  justifyContent="center"
+                  alignItems="center"
+                  boxSize="120px"
+                  borderRadius="full"
+                  background="#14A281"
+                >
+                  <IconPemasukan />
+                </Flex>
+                <Text>Uang Masuk</Text>
               </Flex>
-              <Text>Uang Masuk</Text>
-            </Flex>
-            <Flex
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
-              cursor="pointer"
-              onClick={() => router.push("/reports?section=outcome")}
-            >
               <Flex
                 justifyContent="center"
                 alignItems="center"
-                boxSize="120px"
-                borderRadius="full"
-                background="#14A281"
+                flexDirection="column"
+                cursor="pointer"
+                onClick={() => router.push("/reports?section=outcome")}
               >
-                <IconPengeluaran />
+                <Flex
+                  justifyContent="center"
+                  alignItems="center"
+                  boxSize="120px"
+                  borderRadius="full"
+                  background="#14A281"
+                >
+                  <IconPengeluaran />
+                </Flex>
+                <Text>Uang Keluar</Text>
               </Flex>
-              <Text>Uang Keluar</Text>
             </Flex>
-          </Flex>
+          </Box>
 
           <Box
             mt="3em"
@@ -92,7 +94,7 @@ export default function Home() {
             </Flex>
           </Box>
 
-          <Box
+          {/* <Box
             mt="1em"
             background="#324C8D"
             borderRadius="28px"
@@ -110,9 +112,23 @@ export default function Home() {
                 h={"28px"}
               />
             </Flex>
+          </Box> */}
+          <Box mt="1em" className={styles["container-profit-loss"]}>
+            <ProfitLoss />
+            <Flex justifyContent="center" alignItems="center">
+              <Button
+                background="#018062"
+                borderRadius="13px"
+                color="white"
+                cursor="pointer"
+                onClick={() => router.push("/profit-loss")}
+              >
+                Lihat Detail
+              </Button>
+            </Flex>
           </Box>
         </Box>
-      </>
+      </Box>
     );
   }
   return <></>;
