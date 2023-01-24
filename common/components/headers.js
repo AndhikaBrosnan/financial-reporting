@@ -2,6 +2,8 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { isMiniMobileHandler } from "../helpers/responsive";
+import { LogoTitle } from "./icons";
+import styles from "./styles.module.css";
 
 const HeaderLayout = (props) => {
   const { title } = props;
@@ -16,10 +18,10 @@ const HeaderLayout = (props) => {
       alignItems="center"
       background="#018062"
       boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.25)"}
-      h="50"
+      h="fit-content"
     >
       <Flex justifyContent="flex-start" alignItems="center">
-        {isMobile && router.asPath !== "/" && (
+        {isMobile && router.asPath !== "/" ? (
           <IconButton
             p={"1em 1em 0.5em"}
             onClick={() => router.push("/")}
@@ -29,9 +31,15 @@ const HeaderLayout = (props) => {
             aria-label="Back"
             icon={<ArrowBackIcon />}
           />
+        ) : (
+          <>
+            <LogoTitle />
+          </>
         )}
         {router.asPath === "/" && (
-          <Text color="white">Financial Reporting App</Text>
+          <Text className={styles["title-headers"]} color="white">
+            Catat Uang
+          </Text>
         )}
       </Flex>
       <Box ml={"2em"}>{title}</Box>
