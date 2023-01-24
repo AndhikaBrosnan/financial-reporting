@@ -211,10 +211,6 @@ const ParentComponentProfitLoss = (props) => {
   const [biggestOutcome, setBiggestOutcome] = useState();
   const { transaksi } = props;
 
-  console.log("transaksi: ", transaksi);
-  console.log("outcomes: ", outcomes);
-  console.log("biggestOutcome:", biggestOutcome);
-
   useEffect(() => {
     if (isEmpty(transaksi)) return;
 
@@ -227,12 +223,10 @@ const ParentComponentProfitLoss = (props) => {
 
   useEffect(() => {
     if (isEmpty(outcomes)) return;
-    console.log("outcomes: ", outcomes);
     const max = outcomes.reduce(function (prev, current) {
       return prev.nominal > current.nominal ? prev : current;
     });
 
-    console.log("max: ", max);
     setBiggestOutcome(max);
   }, [outcomes]);
 
@@ -240,22 +234,28 @@ const ParentComponentProfitLoss = (props) => {
     <Box p={!isMobile && "0 30em"}>
       <HeaderLayout />
       {props.children}
-      <Flex
-        m="2em 0"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-      >
-        <Box>
-          <Text fontWeight="bold">Persentase Pengeluaran</Text>
-        </Box>
-        <Box ml={3} mt={2}>
-          <Text>
-            {biggestOutcome.name} merupakan beban pengeluaran terbesar dengan
-            pengeluaran sebesar Rp.{formatter.format(biggestOutcome.nominal)}
-          </Text>
-        </Box>
-      </Flex>
+
+      {!isEmpty(biggestOutcome) && (
+        <Flex
+          m="2em 0"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+        >
+          <Box>
+            <Heading as="h1" size="md" fontWeight="bold">
+              Persentase Pengeluaran
+            </Heading>
+          </Box>
+          <Box ml={3} mt={2}>
+            <Text>
+              <span style={{ fontWeight: 500 }}>{biggestOutcome.name}</span>{" "}
+              merupakan beban pengeluaran terbesar dengan pengeluaran sebesar
+              Rp.{formatter.format(biggestOutcome.nominal)}
+            </Text>
+          </Box>
+        </Flex>
+      )}
     </Box>
   );
 };
