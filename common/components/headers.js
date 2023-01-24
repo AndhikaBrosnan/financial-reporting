@@ -1,6 +1,7 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Box, Flex, IconButton, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { Fragment } from "react";
 import { isMiniMobileHandler } from "../helpers/responsive";
 import { LogoTitle } from "./icons";
 import styles from "./styles.module.css";
@@ -33,7 +34,7 @@ const HeaderLayout = (props) => {
           />
         ) : (
           <>
-            <LogoTitle />
+            <LogoTitle onClick={() => router.push("/")} cursor="pointer" />
           </>
         )}
         {router.asPath === "/" && (

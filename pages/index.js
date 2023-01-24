@@ -94,25 +94,6 @@ export default function Home() {
             </Flex>
           </Box>
 
-          {/* <Box
-            mt="1em"
-            background="#324C8D"
-            borderRadius="28px"
-            cursor="pointer"
-            onClick={() => router.push("/profit-loss")}
-          >
-            <Flex justifyContent="flex-start" alignItems="center" p="2em">
-              <Text flex="1" className={styles["laporan-keuangan"]}>
-                Laporan Keuangan
-              </Text>
-              <ChevronRightIcon
-                color="white"
-                size="28px"
-                w={"28px"}
-                h={"28px"}
-              />
-            </Flex>
-          </Box> */}
           <Box mt="1em" className={styles["container-profit-loss"]}>
             <ProfitLoss />
             <Flex justifyContent="center" alignItems="center">

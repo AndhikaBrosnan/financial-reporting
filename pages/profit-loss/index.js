@@ -3,15 +3,11 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import HeaderLayout from "../../common/components/headers";
-import {
-  isMiniMobileHandler,
-  isMobileHandler,
-} from "../../common/helpers/responsive";
+import { isMobileHandler } from "../../common/helpers/responsive";
 import { supabase } from "../../common/helpers/supabaseClient";
 import styles from "./styles.module.css";
 
 const ProfitLoss = () => {
-  const isMobile = isMiniMobileHandler();
   const router = useRouter();
 
   const [transaksi, setTransaksi] = useState([]);
@@ -135,7 +131,10 @@ const ProfitLoss = () => {
   }
 
   return (
-    <ParentComponentProfitLoss>
+    <ParentComponentProfitLoss
+      transaksi={transaksi}
+      setTransaksi={setTransaksi}
+    >
       <Flex justifyContent="center" alignItems="center" pt="1em">
         <Heading className={styles["title-laporan-keuangan"]} as="h2">
           Laporan Keuangan
@@ -199,23 +198,6 @@ const ProfitLoss = () => {
           </Box>
         </Flex>
         <Divider borderWidth="2px" />
-
-        <Flex
-          m="2em 0"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-        >
-          <Box>
-            <Text fontWeight="bold">Persentase Pengeluaran</Text>
-          </Box>
-          <Box ml={3} mt={2}>
-            <Text>
-              {"Beban Gaji"} merupakan beban pengeluaran terbesar dengan
-              persentase {"5%"}
-            </Text>
-          </Box>
-        </Flex>
       </Box>
     </ParentComponentProfitLoss>
   );
@@ -223,6 +205,37 @@ const ProfitLoss = () => {
 
 const ParentComponentProfitLoss = (props) => {
   const isMobile = isMobileHandler();
+  const formatter = new Intl.NumberFormat("id-ID");
+
+  const [outcomes, setOutcomes] = useState();
+  const [biggestOutcome, setBiggestOutcome] = useState();
+  const { transaksi } = props;
+
+  console.log("transaksi: ", transaksi);
+  console.log("outcomes: ", outcomes);
+  console.log("biggestOutcome:", biggestOutcome);
+
+  useEffect(() => {
+    if (isEmpty(transaksi)) return;
+
+    const filteredOutcome = transaksi.filter((item) => {
+      return item.type === "outcome";
+    });
+
+    setOutcomes(filteredOutcome);
+  }, [transaksi]);
+
+  useEffect(() => {
+    if (isEmpty(outcomes)) return;
+    console.log("outcomes: ", outcomes);
+    const max = outcomes.reduce(function (prev, current) {
+      return prev.nominal > current.nominal ? prev : current;
+    });
+
+    console.log("max: ", max);
+    setBiggestOutcome(max);
+  }, [outcomes]);
+
   return (
     <Box p={!isMobile && "0 30em"}>
       <HeaderLayout />
@@ -238,8 +251,8 @@ const ParentComponentProfitLoss = (props) => {
         </Box>
         <Box ml={3} mt={2}>
           <Text>
-            {"Beban Gaji"} merupakan beban pengeluaran terbesar dengan
-            persentase {"5%"}
+            {biggestOutcome.name} merupakan beban pengeluaran terbesar dengan
+            pengeluaran sebesar Rp.{formatter.format(biggestOutcome.nominal)}
           </Text>
         </Box>
       </Flex>
