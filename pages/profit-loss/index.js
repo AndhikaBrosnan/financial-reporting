@@ -99,7 +99,7 @@ const ProfitLoss = () => {
               <Text color="green">Pemasukan</Text>
             </Box>
             <Box ml={3}>
-              <Text color="green">Rp. {formatter.format(totalIncome)}</Text>
+              <Text color="green">Rp {formatter.format(totalIncome)}</Text>
             </Box>
           </Flex>
 
@@ -108,7 +108,7 @@ const ProfitLoss = () => {
               <Text color="red">Pengeluaran</Text>
             </Box>
             <Box ml={3}>
-              <Text color="red">Rp. {formatter.format(totalOutcome)}</Text>
+              <Text color="red">Rp {formatter.format(totalOutcome)}</Text>
             </Box>
           </Flex>
 
@@ -119,7 +119,7 @@ const ProfitLoss = () => {
             </Box>
             <Box ml={3}>
               <Text color={totalProfit > 0 ? "green" : "red"}>
-                {totalProfit < 0 && "-"} Rp.{" "}
+                {totalProfit < 0 && "-"} Rp{" "}
                 {formatter.format(Math.abs(totalProfit))}
               </Text>
             </Box>
@@ -172,7 +172,7 @@ const ProfitLoss = () => {
             <Text color="green">Pemasukan</Text>
           </Box>
           <Box ml={3}>
-            <Text color="green">Rp. {formatter.format(totalIncome)}</Text>
+            <Text color="green">Rp {formatter.format(totalIncome)}</Text>
           </Box>
         </Flex>
 
@@ -181,7 +181,7 @@ const ProfitLoss = () => {
             <Text color="red">Pengeluaran</Text>
           </Box>
           <Box ml={3}>
-            <Text color="red">Rp. {formatter.format(totalOutcome)}</Text>
+            <Text color="red">Rp {formatter.format(totalOutcome)}</Text>
           </Box>
         </Flex>
 
@@ -192,7 +192,7 @@ const ProfitLoss = () => {
           </Box>
           <Box ml={3}>
             <Text color={totalProfit > 0 ? "green" : "red"}>
-              {totalProfit < 0 && "-"} Rp.{" "}
+              {totalProfit < 0 && "-"} Rp{" "}
               {formatter.format(Math.abs(totalProfit))}
             </Text>
           </Box>
@@ -250,8 +250,8 @@ const ParentComponentProfitLoss = (props) => {
           <Box ml={3} mt={2}>
             <Text>
               <span style={{ fontWeight: 500 }}>{biggestOutcome.name}</span>{" "}
-              merupakan beban pengeluaran terbesar dengan pengeluaran sebesar
-              Rp.{formatter.format(biggestOutcome.nominal)}
+              merupakan beban pengeluaran terbesar dengan pengeluaran sebesar Rp{" "}
+              {formatter.format(biggestOutcome.nominal)}
             </Text>
           </Box>
         </Flex>
