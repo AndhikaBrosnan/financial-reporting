@@ -46,11 +46,6 @@ const FinancialRecords = () => {
     fetchDatabase();
   }, []);
 
-  // useEffect(() => {
-  // const transactions = JSON.parse(localStorage.getItem("transactions"));
-  // if (!isEmpty(transactions)) setTransaksi(transactions);
-  // }, []);
-
   return (
     <Box p={!isMobile && "0 30em"}>
       <HeaderLayout />

@@ -244,7 +244,7 @@ const ParentComponentProfitLoss = (props) => {
         >
           <Box>
             <Heading as="h1" size="md" fontWeight="bold">
-              Persentase Pengeluaran
+              Saran Keuangan
             </Heading>
           </Box>
           <Box ml={3} mt={2}>
