@@ -74,18 +74,18 @@ const ProfitLoss = () => {
             pt="1em"
             overflowX="auto"
           >
-            <Button className={styles["button-filter"]} colorScheme="teal">
+            <Button className="rounded-full mx-px" colorScheme="teal">
               Semua
             </Button>
             <Button
-              className={styles["button-filter"]}
+              className="rounded-full mx-px"
               colorScheme="teal"
               variant="outline"
             >
               Bulan ini
             </Button>
             <Button
-              className={styles["button-filter"]}
+              className="rounded-full mx-px"
               colorScheme="teal"
               variant="outline"
             >
@@ -147,18 +147,18 @@ const ProfitLoss = () => {
           pt="1em"
           overflowX="auto"
         >
-          <Button className={styles["button-filter"]} colorScheme="teal">
+          <Button className="rounded-full mx-px" colorScheme="teal">
             Semua
           </Button>
           <Button
-            className={styles["button-filter"]}
+            className="rounded-full mx-px"
             colorScheme="teal"
             variant="outline"
           >
             Bulan ini
           </Button>
           <Button
-            className={styles["button-filter"]}
+            className="rounded-full mx-px"
             colorScheme="teal"
             variant="outline"
           >
