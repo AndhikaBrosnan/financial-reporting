@@ -13,10 +13,13 @@ const ProfitLoss = () => {
   const [transaksi, setTransaksi] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalOutcome, setTotalOutcome] = useState(0);
+  const [monthFilter, setMonthFilter] = useState("all");
 
   const [totalProfit, setTotalProfit] = useState(0);
 
   const formatter = new Intl.NumberFormat("id-ID");
+
+  console.log("[debug] transaksi: ", transaksi);
 
   const fetchDatabase = async () => {
     let { data } = await supabase
@@ -24,40 +27,84 @@ const ProfitLoss = () => {
       .select(`type, name, jenisTransaksi, transactionDate, nominal`);
 
     localStorage.setItem("transactions", JSON.stringify(data));
-    if (!isEmpty(data)) setTransaksi(data);
+    if (isEmpty(data)) return;
+
+    const currentDate = new Date();
+    console.log("[debug] monthFilter: ", monthFilter);
+    console.log("[debug] currentDate: ", currentDate.getMonth());
+
+    switch (monthFilter) {
+      case "all":
+        setTransaksi(data);
+        break;
+      case "this_month":
+        const this_month = data.filter((trx) => {
+          const trxDate = new Date(trx.transactionDate);
+          return (
+            trxDate.getMonth() === currentDate.getMonth() &&
+            trxDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+
+        setTransaksi(this_month);
+        break;
+      case "month_before":
+        const prevMonth =
+          currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1;
+
+        const month_before = data.filter((trx) => {
+          const transactionDate = new Date(trx.transactionDate);
+          return (
+            (transactionDate.getMonth() === prevMonth &&
+              transactionDate.getFullYear() === currentDate.getFullYear()) ||
+            // Handle the case where the transaction is in December of the previous year
+            (prevMonth === 11 &&
+              transactionDate.getMonth() === 0 &&
+              transactionDate.getFullYear() === currentDate.getFullYear() - 1)
+          );
+        });
+
+        setTransaksi(month_before);
+        break;
+      default:
+        setTransaksi(data);
+        break;
+    }
   };
 
   useEffect(() => {
     fetchDatabase();
-  }, []);
+  }, [monthFilter]);
 
   useEffect(() => {
-    if (!isEmpty(transaksi)) {
-      // sum income
-      const sumIncome = transaksi.reduce(function (sum, value) {
-        if (value.type === "income") {
-          return sum + parseInt(value.nominal);
-        }
-        return sum;
-      }, 0);
-      setTotalIncome(sumIncome);
+    // if (!isEmpty(transaksi)) {
+    // sum income
+    const sumIncome = transaksi.reduce(function (sum, value) {
+      if (value.type === "income") {
+        return sum + parseInt(value.nominal);
+      }
+      return sum;
+    }, 0);
+    setTotalIncome(sumIncome);
 
-      // sum outcome
-      const sumOutcome = transaksi.reduce(function (sum, value) {
-        if (value.type === "outcome") {
-          return sum + parseInt(value.nominal);
-        }
-        return sum;
-      }, 0);
-      setTotalOutcome(sumOutcome);
-
-      // search biggest sum
-    }
+    // sum outcome
+    const sumOutcome = transaksi.reduce(function (sum, value) {
+      if (value.type === "outcome") {
+        return sum + parseInt(value.nominal);
+      }
+      return sum;
+    }, 0);
+    setTotalOutcome(sumOutcome);
+    // }
   }, [transaksi]);
 
   useEffect(() => {
     setTotalProfit(totalIncome - totalOutcome);
   }, [totalIncome, totalOutcome]);
+
+  const onClickFilterWaktu = (value) => {
+    setMonthFilter(value);
+  };
 
   if (router.pathname === "/") {
     return (
@@ -74,20 +121,27 @@ const ProfitLoss = () => {
             pt="1em"
             overflowX="auto"
           >
-            <Button className="rounded-full mx-px" colorScheme="teal">
+            <Button
+              className="rounded-full mx-px"
+              colorScheme="teal"
+              variant={monthFilter === "all" ? "solid" : "outline"}
+              onClick={() => onClickFilterWaktu("all")}
+            >
               Semua
             </Button>
             <Button
               className="rounded-full mx-px"
               colorScheme="teal"
-              variant="outline"
+              variant={monthFilter === "this_month" ? "solid" : "outline"}
+              onClick={() => onClickFilterWaktu("this_month")}
             >
               Bulan ini
             </Button>
             <Button
               className="rounded-full mx-px"
               colorScheme="teal"
-              variant="outline"
+              variant={monthFilter === "month_before" ? "solid" : "outline"}
+              onClick={() => onClickFilterWaktu("month_before")}
             >
               Bulan lalu
             </Button>
@@ -147,20 +201,27 @@ const ProfitLoss = () => {
           pt="1em"
           overflowX="auto"
         >
-          <Button className="rounded-full mx-px" colorScheme="teal">
+          <Button
+            className="rounded-full mx-px"
+            colorScheme="teal"
+            variant={monthFilter === "all" ? "solid" : "outline"}
+            onClick={() => onClickFilterWaktu("all")}
+          >
             Semua
           </Button>
           <Button
             className="rounded-full mx-px"
             colorScheme="teal"
-            variant="outline"
+            variant={monthFilter === "this_month" ? "solid" : "outline"}
+            onClick={() => onClickFilterWaktu("this_month")}
           >
             Bulan ini
           </Button>
           <Button
             className="rounded-full mx-px"
             colorScheme="teal"
-            variant="outline"
+            variant={monthFilter === "month_before" ? "solid" : "outline"}
+            onClick={() => onClickFilterWaktu("month_before")}
           >
             Bulan lalu
           </Button>
